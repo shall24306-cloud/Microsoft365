@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Windows Security Alert</title>
+<title>Security Alert Simulation</title>
+
 <style>
   body {
     margin:0;
-    font-family: "Segoe UI", sans-serif;
+    font-family:"Segoe UI",sans-serif;
     background:#0078D7;
-    color:#000;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -17,94 +17,184 @@
 
   .container {
     background:white;
-    border-radius:8px;
-    width:700px;
+    width:750px;
     max-width:95%;
+    border-radius:8px;
     padding:20px;
-    box-shadow:0 0 25px rgba(0,0,0,0.4);
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { box-shadow:0 0 25px rgba(0,0,0,0.4); }
-    50% { box-shadow:0 0 35px rgba(255,0,0,0.6); }
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
   }
 
   .header {
     display:flex;
     align-items:center;
-    gap:15px;
-    margin-bottom:15px;
+    gap:10px;
   }
 
   .header img {
-    width:50px;
+    width:40px;
   }
 
-  .header h1 {
-    font-size:20px;
+  .title {
     font-weight:bold;
-    margin:0;
+    font-size:20px;
   }
 
-  .warning-box {
-    background:#f9f9f9;
-    border-radius:6px;
+  .warning {
+    margin-top:15px;
     padding:15px;
-    margin-top:10px;
+    background:#fff3f3;
+    border-left:5px solid red;
     animation: blink 1s infinite;
   }
 
   @keyframes blink {
-    0%,50%,100% { opacity:1; }
-    25%,75% { opacity:0.6; }
+    0%,100% {opacity:1;}
+    50% {opacity:0.6;}
   }
 
-  .warning-box h2 {
-    color:#d32f2f;
-    margin-top:0;
-    font-size:18px;
+  .progress {
+    margin-top:15px;
+    height:20px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
   }
 
-  .warning-box p {
-    margin:5px 0;
-    line-height:1.4;
+  .bar {
+    height:100%;
+    width:0%;
+    background:#0078D7;
+    animation: load 8s linear forwards;
   }
 
-  .info-grid {
+  @keyframes load {
+    from {width:0%;}
+    to {width:100%;}
+  }
+
+  .grid {
     display:flex;
     gap:10px;
     margin-top:15px;
   }
 
-  .info-box {
+  .box {
     flex:1;
     background:#e6f0fb;
-    border-radius:6px;
     padding:10px;
+    border-radius:5px;
     font-size:14px;
   }
 
-  .info-box.white {
-    background:white;
-    color:black;
-  }
-
   .buttons {
+    margin-top:15px;
     display:flex;
     justify-content:flex-end;
     gap:10px;
-    margin-top:15px;
   }
 
-  .buttons button {
-    padding:8px 16px;
+  button {
+    padding:8px 15px;
     border:none;
     border-radius:4px;
     cursor:pointer;
-    font-weight:bold;
   }
 
+  .allow { background:#0078D7; color:white; }
+  .deny { background:#d32f2f; color:white; }
+
+  .footer {
+    margin-top:15px;
+    font-size:12px;
+    color:#666;
+    text-align:center;
+  }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
+    <div class="title">Windows Defender Security Center</div>
+  </div>
+
+  <div class="warning">
+    <strong>⚠ Security Alert (Simulation)</strong><br>
+    Suspicious activity detected on this system.<br>
+    Error Code: <span id="code"></span>
+  </div>
+
+  <div class="progress">
+    <div class="bar"></div>
+  </div>
+
+  <div class="grid">
+    <div class="box">
+      <b>Threat:</b><br>
+      Trojan.Generic<br>
+      Status: Scanning
+    </div>
+    <div class="box">
+      <b>Location:</b><br>
+      Unknown Server<br>
+      Time Zone: UTC+3
+    </div>
+    <div class="box">
+      <b>System:</b><br>
+      Risk Level: Medium<br>
+      Action: Pending
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="allow" onclick="triggerFullscreen()">Allow</button>
+    <button class="deny" onclick="triggerFullscreen()">Deny</button>
+  </div>
+
+  <div class="footer">
+    ⚠ This page is a demo / simulation for learning purposes only.
+  </div>
+
+</div>
+
+<!-- Audio -->
+<audio id="alertSound" loop>
+  <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+</audio>
+
+<script>
+  // Generate random error code
+  function genCode(){
+    return "0x" + Math.floor(Math.random()*999999).toString(16);
+  }
+  document.getElementById("code").innerText = genCode();
+
+  const sound = document.getElementById("alertSound");
+
+  function triggerFullscreen() {
+    // Start sound safely
+    sound.play().catch(()=>{});
+
+    // Fullscreen request
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+      elem.msRequestFullscreen();
+    }
+
+    // Optional: add any extra animations here (progress bar already animates)
+    alert("Simulation active in fullscreen"); // optional demo message
+  }
+</script>
+
+</body>
+</html>
   .allow {
     background:#0078D7;
     color:white;

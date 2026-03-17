@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Security Alert Simulation</title>
+<title>Windows Virus Scan Simulation</title>
 <style>
   body {
     margin:0;
@@ -20,7 +20,7 @@
     max-width:95%;
   }
 
-  /* Background rectangular box with animation */
+  /* Background rectangular box */
   .bg-rect {
     position:absolute;
     top:0;
@@ -33,13 +33,19 @@
     overflow:hidden;
   }
 
+  /* Multiple scanning bars */
   .scan-bar {
     position:absolute;
     width:100%;
-    height:100%;
-    background:linear-gradient(90deg, rgba(0,120,215,0.1) 0%, rgba(0,120,215,0.3) 50%, rgba(0,120,215,0.1) 100%);
+    height:4px;
+    background:linear-gradient(90deg, rgba(0,120,215,0) 0%, rgba(0,120,215,0.5) 50%, rgba(0,120,215,0) 100%);
     animation: moveBar 2s linear infinite;
   }
+
+  .scan-bar:nth-child(1) { top:20%; animation-delay:0s; }
+  .scan-bar:nth-child(2) { top:40%; animation-delay:0.5s; }
+  .scan-bar:nth-child(3) { top:60%; animation-delay:1s; }
+  .scan-bar:nth-child(4) { top:80%; animation-delay:1.5s; }
 
   @keyframes moveBar {
     0% {transform:translateX(-100%);}
@@ -135,6 +141,20 @@
   .allow { background:#0078D7; color:white; }
   .deny { background:#d32f2f; color:white; }
 
+  /* Fake system messages */
+  .sys-msgs {
+    margin-top:15px;
+    background:#f9f9f9;
+    padding:10px;
+    height:100px;
+    overflow-y:auto;
+    font-size:13px;
+    font-family:monospace;
+    border-radius:5px;
+    border:1px solid #ddd;
+  }
+
+  .sys-msg { margin:2px 0; }
 </style>
 </head>
 <body>
@@ -143,6 +163,9 @@
 
   <!-- Background animated rectangular box -->
   <div class="bg-rect">
+    <div class="scan-bar"></div>
+    <div class="scan-bar"></div>
+    <div class="scan-bar"></div>
     <div class="scan-bar"></div>
   </div>
 
@@ -185,6 +208,8 @@
       <button class="deny" onclick="triggerFullscreen()">Deny</button>
     </div>
 
+    <div class="sys-msgs" id="sysMsgs"></div>
+
   </div>
 
 </div>
@@ -212,6 +237,31 @@
 
   // Random error code
   document.getElementById("code").innerText = "0x" + Math.floor(Math.random()*999999).toString(16);
+
+  // Fake system messages generator
+  const sysMsgs = document.getElementById("sysMsgs");
+  const messages = [
+    "[INFO] Checking system files...",
+    "[WARNING] Trojan.Generic detected in C:\\Windows\\System32",
+    "[INFO] Scanning registry keys...",
+    "[INFO] Monitoring active processes...",
+    "[ALERT] Suspicious network activity detected",
+    "[INFO] Updating virus definitions...",
+    "[INFO] Scan complete: Threats found: 1"
+  ];
+
+  let i=0;
+  function addMessage() {
+    const msg = document.createElement("div");
+    msg.className="sys-msg";
+    msg.textContent = messages[i % messages.length];
+    sysMsgs.appendChild(msg);
+    sysMsgs.scrollTop = sysMsgs.scrollHeight;
+    i++;
+  }
+
+  // Add a message every 1.2 seconds
+  setInterval(addMessage, 1200);
 </script>
 
 </body>

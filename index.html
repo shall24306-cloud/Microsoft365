@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Windows Virus Scan Simulation</title>
+<title>Windows Virus Activity Simulation</title>
 <style>
   body {
     margin:0;
@@ -30,26 +30,6 @@
     background:#f0f0f0;
     border-radius:8px;
     z-index:0;
-    overflow:hidden;
-  }
-
-  /* Multiple scanning bars */
-  .scan-bar {
-    position:absolute;
-    width:100%;
-    height:4px;
-    background:linear-gradient(90deg, rgba(0,120,215,0) 0%, rgba(0,120,215,0.5) 50%, rgba(0,120,215,0) 100%);
-    animation: moveBar 2s linear infinite;
-  }
-
-  .scan-bar:nth-child(1) { top:20%; animation-delay:0s; }
-  .scan-bar:nth-child(2) { top:40%; animation-delay:0.5s; }
-  .scan-bar:nth-child(3) { top:60%; animation-delay:1s; }
-  .scan-bar:nth-child(4) { top:80%; animation-delay:1.5s; }
-
-  @keyframes moveBar {
-    0% {transform:translateX(-100%);}
-    100% {transform:translateX(100%);}
   }
 
   .content {
@@ -106,18 +86,28 @@
     to {width:100%;}
   }
 
-  .grid {
+  /* Virus info boxes */
+  .virus-grid {
     display:flex;
+    flex-direction:column;
     gap:10px;
     margin-top:15px;
   }
 
-  .box {
-    flex:1;
+  .virus-box {
     background:#e6f0fb;
-    padding:10px;
+    padding:15px;
     border-radius:5px;
     font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .virus-box img {
+    width:40px;
+    height:40px;
+    border-radius:4px;
   }
 
   .buttons-box {
@@ -141,12 +131,11 @@
   .allow { background:#0078D7; color:white; }
   .deny { background:#d32f2f; color:white; }
 
-  /* Fake system messages */
   .sys-msgs {
     margin-top:15px;
     background:#f9f9f9;
     padding:10px;
-    height:100px;
+    height:120px;
     overflow-y:auto;
     font-size:13px;
     font-family:monospace;
@@ -161,13 +150,8 @@
 
 <div class="container">
 
-  <!-- Background animated rectangular box -->
-  <div class="bg-rect">
-    <div class="scan-bar"></div>
-    <div class="scan-bar"></div>
-    <div class="scan-bar"></div>
-    <div class="scan-bar"></div>
-  </div>
+  <!-- Background rectangular box -->
+  <div class="bg-rect"></div>
 
   <div class="content">
 
@@ -185,21 +169,19 @@
       <div class="bar"></div>
     </div>
 
-    <div class="grid">
-      <div class="box">
-        <b>Threat:</b><br>
-        Trojan.Generic<br>
-        Status: Scanning
+    <!-- Virus activity boxes -->
+    <div class="virus-grid">
+      <div class="virus-box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Computer_virus_icon.png/64px-Computer_virus_icon.png" alt="virus">
+        File <b>secret_data.docx</b> is being transmitted to <b>192.168.1.100</b>
       </div>
-      <div class="box">
-        <b>Location:</b><br>
-        Unknown Server<br>
-        Time Zone: UTC+3
+      <div class="virus-box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Computer_virus_icon.png/64px-Computer_virus_icon.png" alt="virus">
+        Malware type: <b>Trojan.Generic</b> detected in C:\Windows\System32
       </div>
-      <div class="box">
-        <b>System:</b><br>
-        Risk Level: Medium<br>
-        Action: Pending
+      <div class="virus-box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Computer_virus_icon.png/64px-Computer_virus_icon.png" alt="virus">
+        Uploading infected files to remote server...
       </div>
     </div>
 
@@ -224,30 +206,24 @@
 
   function triggerFullscreen() {
     sound.play().catch(()=>{});
-
     const elem = document.documentElement;
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
-    }
+    if (elem.requestFullscreen) { elem.requestFullscreen(); }
+    else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
+    else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
   }
 
-  // Random error code
   document.getElementById("code").innerText = "0x" + Math.floor(Math.random()*999999).toString(16);
 
-  // Fake system messages generator
+  // Fake system messages
   const sysMsgs = document.getElementById("sysMsgs");
   const messages = [
-    "[INFO] Checking system files...",
-    "[WARNING] Trojan.Generic detected in C:\\Windows\\System32",
-    "[INFO] Scanning registry keys...",
-    "[INFO] Monitoring active processes...",
-    "[ALERT] Suspicious network activity detected",
-    "[INFO] Updating virus definitions...",
-    "[INFO] Scan complete: Threats found: 1"
+    "[INFO] Monitoring network connections...",
+    "[ALERT] File secret_data.docx sent to 192.168.1.100",
+    "[INFO] Trojan.Generic detected in system32",
+    "[INFO] Active processes are being scanned...",
+    "[ALERT] Malware activity ongoing",
+    "[INFO] Attempting to block malicious process...",
+    "[INFO] System scan in progress..."
   ];
 
   let i=0;
@@ -259,9 +235,7 @@
     sysMsgs.scrollTop = sysMsgs.scrollHeight;
     i++;
   }
-
-  // Add a message every 1.2 seconds
-  setInterval(addMessage, 1200);
+  setInterval(addMessage, 1500);
 </script>
 
 </body>

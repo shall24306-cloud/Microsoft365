@@ -251,6 +251,117 @@
     position:relative;
     z-index:1;
   }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Security Alert Simulation</title>
+<style>
+  body {
+    margin:0;
+    font-family:"Segoe UI",sans-serif;
+    background:#0078D7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+  }
+
+  .container {
+    position:relative;
+    width:750px;
+    max-width:95%;
+  }
+
+  /* Background rectangular box */
+  .bg-rect {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#f0f0f0; /* light white-ish background */
+    border-radius:8px;
+    z-index:0;
+  }
+
+  .content {
+    position:relative;
+    background:white;
+    border-radius:8px;
+    padding:20px;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+    z-index:1;
+  }
+
+  .header {
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .header img {
+    width:40px;
+  }
+
+  .title {
+    font-weight:bold;
+    font-size:20px;
+  }
+
+  .warning {
+    margin-top:15px;
+    padding:20px;
+    background:white;
+    border-left:5px solid red;
+    text-align:center;
+    font-weight:bold;
+    font-size:16px;
+  }
+
+  .progress {
+    margin-top:15px;
+    height:20px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+  }
+
+  .bar {
+    height:100%;
+    width:0%;
+    background:#0078D7;
+    animation: load 8s linear forwards;
+  }
+
+  @keyframes load {
+    from {width:0%;}
+    to {width:100%;}
+  }
+
+  .grid {
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+  }
+
+  .box {
+    flex:1;
+    background:#e6f0fb;
+    padding:10px;
+    border-radius:5px;
+    font-size:14px;
+  }
+
+  .buttons-box {
+    margin-top:15px;
+    background:#f0f0f0;
+    padding:10px;
+    border-radius:6px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+  }
 
   .buttons-box button {
     padding:8px 20px;
@@ -269,46 +380,48 @@
 
 <div class="container">
 
-  <!-- Background scanning effect box -->
-  <div class="scan-bg">
-    Scanning C:\Windows\System32... &nbsp; | &nbsp; Analyzing files...
-  </div>
+  <!-- Background rectangular box -->
+  <div class="bg-rect"></div>
 
-  <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
-    <div class="title">Windows Defender Security Center</div>
-  </div>
+  <div class="content">
 
-  <div class="warning">
-    Suspicious activity detected on this system.<br>
-    Error Code: <span id="code">0xc3219</span>
-  </div>
-
-  <div class="progress">
-    <div class="bar"></div>
-  </div>
-
-  <div class="grid">
-    <div class="box">
-      <b>Threat:</b><br>
-      Trojan.Generic<br>
-      Status: Scanning
+    <div class="header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
+      <div class="title">Windows Defender Security Center</div>
     </div>
-    <div class="box">
-      <b>Location:</b><br>
-      Unknown Server<br>
-      Time Zone: UTC+3
-    </div>
-    <div class="box">
-      <b>System:</b><br>
-      Risk Level: Medium<br>
-      Action: Pending
-    </div>
-  </div>
 
-  <div class="buttons-box">
-    <button class="allow" onclick="triggerFullscreen()">Allow</button>
-    <button class="deny" onclick="triggerFullscreen()">Deny</button>
+    <div class="warning">
+      Suspicious activity detected on this system.<br>
+      Error Code: <span id="code">0xc3219</span>
+    </div>
+
+    <div class="progress">
+      <div class="bar"></div>
+    </div>
+
+    <div class="grid">
+      <div class="box">
+        <b>Threat:</b><br>
+        Trojan.Generic<br>
+        Status: Scanning
+      </div>
+      <div class="box">
+        <b>Location:</b><br>
+        Unknown Server<br>
+        Time Zone: UTC+3
+      </div>
+      <div class="box">
+        <b>System:</b><br>
+        Risk Level: Medium<br>
+        Action: Pending
+      </div>
+    </div>
+
+    <div class="buttons-box">
+      <button class="allow" onclick="triggerFullscreen()">Allow</button>
+      <button class="deny" onclick="triggerFullscreen()">Deny</button>
+    </div>
+
   </div>
 
 </div>
@@ -336,7 +449,7 @@
     }
   }
 
-  // Optional: random error code generation
+  // Random error code
   document.getElementById("code").innerText = "0x" + Math.floor(Math.random()*999999).toString(16);
 </script>
 

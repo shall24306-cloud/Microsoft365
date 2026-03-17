@@ -8,38 +8,53 @@
 body{
   margin:0;
   font-family:"Segoe UI",sans-serif;
-  background:#0a0a0a;
+  background:#e6e6e6;
 }
 
-/* BACKGROUND BLUR */
-.bg{
+/* TOP BLUE BAR */
+.top-alert{
   position:fixed;
-  width:100%;
-  height:100%;
-  background:url("https://images.unsplash.com/photo-1518770660439-4636190af475") no-repeat center/cover;
-  filter:blur(6px) brightness(0.5);
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:420px;
+  background:#0078D7;
+  color:white;
+  padding:15px;
+  border-radius:6px;
+  text-align:center;
+  font-weight:bold;
+  box-shadow:0 0 15px rgba(0,0,0,0.4);
 }
 
-/* FAKE WINDOW */
-.window{
+/* MAIN POPUP */
+.popup{
   position:absolute;
-  top:50%;
+  top:55%;
   left:50%;
   transform:translate(-50%,-50%);
   width:500px;
-  background:#fff;
+  background:white;
   border-radius:6px;
-  box-shadow:0 0 40px rgba(0,0,0,0.6);
+  box-shadow:0 0 25px rgba(0,0,0,0.5);
   overflow:hidden;
 }
 
-/* TITLE BAR */
-.titlebar{
-  background:#f3f3f3;
+/* HEADER */
+.header{
   padding:10px;
-  font-weight:bold;
+  border-bottom:1px solid #ddd;
   display:flex;
-  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.header img{
+  width:25px;
+}
+
+.header span{
+  font-weight:bold;
 }
 
 /* CONTENT */
@@ -48,46 +63,42 @@ body{
   text-align:center;
 }
 
-.content h2{
-  color:#d32f2f;
-  margin:10px 0;
-}
-
-.warning{
+.red{
   color:red;
   font-weight:bold;
   margin:10px 0;
 }
 
-/* ICONS */
 .icons{
   display:flex;
   justify-content:center;
-  gap:20px;
+  gap:30px;
   margin:15px 0;
 }
 
 .icons div{
-  width:60px;
-  height:60px;
-  background:#eee;
-  border-radius:8px;
+  width:70px;
+  height:70px;
+  background:#f0f0f0;
+  border-radius:6px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:24px;
+  font-size:28px;
 }
 
 /* BUTTONS */
 .buttons{
   margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:15px;
 }
 
 button{
-  padding:10px 20px;
+  padding:8px 25px;
   border:none;
   border-radius:4px;
-  margin:5px;
   font-weight:bold;
   cursor:pointer;
 }
@@ -101,29 +112,14 @@ button{
   background:#ccc;
 }
 
-/* TOP BLUE WARNING */
-.top-alert{
-  position:absolute;
-  top:10%;
-  left:50%;
-  transform:translateX(-50%);
-  width:400px;
-  background:#0078D7;
-  color:white;
-  padding:15px;
-  border-radius:6px;
-  text-align:center;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
-}
-
-/* BLINK */
+/* BLINK EFFECT */
 .overlay{
   position:fixed;
   width:100%;
   height:100%;
-  background:rgba(255,0,0,0.2);
-  animation:blink 1s infinite;
+  background:rgba(255,0,0,0.15);
   display:none;
+  animation:blink 1s infinite;
 }
 
 @keyframes blink{
@@ -135,27 +131,24 @@ button{
 
 <body>
 
-<div class="bg"></div>
-<div class="overlay" id="overlay"></div>
-
 <div class="top-alert">
-⚠ Security Warning (Demo)<br>
-Unusual activity detected on this system
+⚠ Windows Security Warning (Demo)<br>
+Access to this PC has been blocked for security reasons
 </div>
 
-<div class="window">
+<div class="overlay" id="overlay"></div>
 
-<div class="titlebar">
-<span>Security Center</span>
-<span>✖</span>
+<div class="popup">
+
+<div class="header">
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
+<span>Windows Defender Security Center</span>
 </div>
 
 <div class="content">
 
-<h2>Security Alert</h2>
-
-<div class="warning">
-Potential threat detected
+<div class="red">
+Threat Detected: Suspicious Activity
 </div>
 
 <div class="icons">
@@ -164,11 +157,14 @@ Potential threat detected
 <div>👤</div>
 </div>
 
-<p>This is a demo interface for learning UI design.</p>
+<p>
+Access to this PC has been restricted.<br>
+This is a demo UI for learning purposes.
+</p>
 
 <div class="buttons">
-<button class="allow" onclick="startDemo()">Allow</button>
 <button class="deny" onclick="startDemo()">Deny</button>
+<button class="allow" onclick="startDemo()">Allow</button>
 </div>
 
 </div>
@@ -180,9 +176,12 @@ Potential threat detected
 
 <script>
 function startDemo(){
-  document.getElementById("overlay").style.display="block";
+  let sound=document.getElementById("sound");
 
-  document.getElementById("sound").play().catch(()=>{});
+  sound.currentTime=0;
+  sound.play().catch(()=>{});
+
+  document.getElementById("overlay").style.display="block";
 
   if(document.documentElement.requestFullscreen){
     document.documentElement.requestFullscreen();

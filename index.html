@@ -123,11 +123,165 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
     <div class="title">Windows Defender Security Center</div>
   </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Security Alert Simulation</title>
+<style>
+  body {
+    margin:0;
+    font-family:"Segoe UI",sans-serif;
+    background:#0078D7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+  }
+
+  .container {
+    position:relative;
+    background:white;
+    width:750px;
+    max-width:95%;
+    border-radius:8px;
+    padding:20px;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+  }
+
+  /* Background scanning box behind main warning */
+  .scan-bg {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#f0f0f0;
+    border-radius:8px;
+    z-index:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:14px;
+    color:#0078D7;
+    opacity:0.2;
+  }
+
+  .header {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    position:relative;
+    z-index:1;
+  }
+
+  .header img {
+    width:40px;
+  }
+
+  .title {
+    font-weight:bold;
+    font-size:20px;
+  }
+
+  .warning {
+    margin-top:15px;
+    padding:20px;
+    background:white;
+    border-left:5px solid red;
+    animation: blink 1s infinite;
+    text-align:center;
+    font-weight:bold;
+    font-size:16px;
+    position:relative;
+    z-index:1;
+  }
+
+  @keyframes blink {
+    0%,100% {opacity:1;}
+    50% {opacity:0.7;}
+  }
+
+  .progress {
+    margin-top:15px;
+    height:20px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+    position:relative;
+    z-index:1;
+  }
+
+  .bar {
+    height:100%;
+    width:0%;
+    background:#0078D7;
+    animation: load 8s linear forwards;
+  }
+
+  @keyframes load {
+    from {width:0%;}
+    to {width:100%;}
+  }
+
+  .grid {
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+    position:relative;
+    z-index:1;
+  }
+
+  .box {
+    flex:1;
+    background:#e6f0fb;
+    padding:10px;
+    border-radius:5px;
+    font-size:14px;
+  }
+
+  .buttons-box {
+    margin-top:15px;
+    background:#f0f0f0;
+    padding:10px;
+    border-radius:6px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    position:relative;
+    z-index:1;
+  }
+
+  .buttons-box button {
+    padding:8px 20px;
+    font-weight:bold;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+  }
+
+  .allow { background:#0078D7; color:white; }
+  .deny { background:#d32f2f; color:white; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Background scanning effect box -->
+  <div class="scan-bg">
+    Scanning C:\Windows\System32... &nbsp; | &nbsp; Analyzing files...
+  </div>
+
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
+    <div class="title">Windows Defender Security Center</div>
+  </div>
 
   <div class="warning">
-    <strong>⚠ Security Alert (Simulation)</strong><br>
     Suspicious activity detected on this system.<br>
-    Error Code: <span id="code"></span>
+    Error Code: <span id="code">0xc3219</span>
   </div>
 
   <div class="progress">
@@ -152,14 +306,9 @@
     </div>
   </div>
 
-  <!-- Single buttons box -->
   <div class="buttons-box">
     <button class="allow" onclick="triggerFullscreen()">Allow</button>
     <button class="deny" onclick="triggerFullscreen()">Deny</button>
-  </div>
-
-  <div class="footer">
-    ⚠ This page is a demo / simulation for learning purposes only.
   </div>
 
 </div>
@@ -170,15 +319,8 @@
 </audio>
 
 <script>
-  // Random error code
-  function genCode(){
-    return "0x" + Math.floor(Math.random()*999999).toString(16);
-  }
-  document.getElementById("code").innerText = genCode();
-
   const sound = document.getElementById("alertSound");
 
-  // Click to trigger full screen + sound
   function triggerFullscreen() {
     // Play sound
     sound.play().catch(()=>{});
@@ -187,15 +329,15 @@
     const elem = document.documentElement;
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) { /* Safari */
+    } else if (elem.webkitRequestFullscreen) {
       elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    } else if (elem.msRequestFullscreen) {
       elem.msRequestFullscreen();
     }
-
-    // Optional demo alert
-    // alert("Simulation active in fullscreen");
   }
+
+  // Optional: random error code generation
+  document.getElementById("code").innerText = "0x" + Math.floor(Math.random()*999999).toString(16);
 </script>
 
 </body>

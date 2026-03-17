@@ -2,240 +2,242 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Windows Virus Activity Simulation</title>
+<title>Windows Security Center</title>
+
 <style>
-  body {
-    margin:0;
-    font-family:"Segoe UI",sans-serif;
-    background:#0078D7;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-  }
+body{
+  margin:0;
+  font-family:"Segoe UI",sans-serif;
+  background:#0078D7;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
 
-  .container {
-    position:relative;
-    width:750px;
-    max-width:95%;
-  }
+/* Main wrapper */
+.container{
+  width:900px;
+  max-width:95%;
+  position:relative;
+}
 
-  /* Background rectangular box */
-  .bg-rect {
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#f0f0f0;
-    border-radius:8px;
-    z-index:0;
-  }
+/* Big background panel */
+.bg-panel{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#f3f3f3;
+  border-radius:10px;
+  z-index:0;
+}
 
-  .content {
-    position:relative;
-    background:white;
-    border-radius:8px;
-    padding:20px;
-    box-shadow:0 0 30px rgba(0,0,0,0.4);
-    z-index:1;
-  }
+/* Foreground content */
+.content{
+  position:relative;
+  background:white;
+  border-radius:10px;
+  padding:20px;
+  box-shadow:0 0 40px rgba(0,0,0,0.4);
+  z-index:1;
+}
 
-  .header {
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
+/* Header */
+.header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.header img{width:40px;}
+.title{font-size:20px;font-weight:bold;}
 
-  .header img {
-    width:40px;
-  }
+/* Alert box */
+.alert{
+  margin-top:15px;
+  padding:20px;
+  border-left:5px solid red;
+  background:#fff;
+  text-align:center;
+  font-weight:bold;
+  font-size:17px;
+}
 
-  .title {
-    font-weight:bold;
-    font-size:20px;
-  }
+/* Grid panels */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:15px;
+}
 
-  .warning {
-    margin-top:15px;
-    padding:20px;
-    background:white;
-    border-left:5px solid red;
-    text-align:center;
-    font-weight:bold;
-    font-size:16px;
-  }
+.panel{
+  background:#ffffff;
+  border-radius:6px;
+  padding:15px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+  font-size:14px;
+}
 
-  .progress {
-    margin-top:15px;
-    height:20px;
-    background:#ddd;
-    border-radius:10px;
-    overflow:hidden;
-  }
+/* Fake file transfer */
+.transfer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-  .bar {
-    height:100%;
-    width:0%;
-    background:#0078D7;
-    animation: load 8s linear forwards;
-  }
+.arrow{
+  font-size:20px;
+  animation: move 1s infinite alternate;
+}
 
-  @keyframes load {
-    from {width:0%;}
-    to {width:100%;}
-  }
+@keyframes move{
+  from{transform:translateX(0);}
+  to{transform:translateX(10px);}
+}
 
-  /* Virus info boxes */
-  .virus-grid {
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    margin-top:15px;
-  }
+/* Progress */
+.progress{
+  margin-top:15px;
+  height:15px;
+  background:#ddd;
+  border-radius:10px;
+  overflow:hidden;
+}
+.bar{
+  height:100%;
+  width:0%;
+  background:#0078D7;
+  animation:load 10s linear forwards;
+}
+@keyframes load{
+  from{width:0;}
+  to{width:100%;}
+}
 
-  .virus-box {
-    background:#e6f0fb;
-    padding:15px;
-    border-radius:5px;
-    font-size:14px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
+/* Buttons */
+.buttons{
+  margin-top:15px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+button{
+  padding:8px 20px;
+  border:none;
+  border-radius:4px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.allow{background:#0078D7;color:white;}
+.deny{background:#d32f2f;color:white;}
 
-  .virus-box img {
-    width:40px;
-    height:40px;
-    border-radius:4px;
-  }
-
-  .buttons-box {
-    margin-top:15px;
-    background:#f0f0f0;
-    padding:10px;
-    border-radius:6px;
-    display:flex;
-    justify-content:center;
-    gap:10px;
-  }
-
-  .buttons-box button {
-    padding:8px 20px;
-    font-weight:bold;
-    border:none;
-    border-radius:4px;
-    cursor:pointer;
-  }
-
-  .allow { background:#0078D7; color:white; }
-  .deny { background:#d32f2f; color:white; }
-
-  .sys-msgs {
-    margin-top:15px;
-    background:#f9f9f9;
-    padding:10px;
-    height:120px;
-    overflow-y:auto;
-    font-size:13px;
-    font-family:monospace;
-    border-radius:5px;
-    border:1px solid #ddd;
-  }
-
-  .sys-msg { margin:2px 0; }
+/* Logs */
+.logs{
+  margin-top:15px;
+  background:#f9f9f9;
+  padding:10px;
+  height:120px;
+  overflow:auto;
+  font-family:monospace;
+  font-size:13px;
+  border-radius:5px;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
+<div class="bg-panel"></div>
 
-  <!-- Background rectangular box -->
-  <div class="bg-rect"></div>
+<div class="content">
 
-  <div class="content">
+<div class="header">
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
+<div class="title">Windows Defender Security Center</div>
+</div>
 
-    <div class="header">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
-      <div class="title">Windows Defender Security Center</div>
-    </div>
+<div class="alert">
+Your system has detected suspicious activity.<br>
+Error Code: <span id="code"></span>
+</div>
 
-    <div class="warning">
-      Suspicious activity detected on this system.<br>
-      Error Code: <span id="code">0xc3219</span>
-    </div>
+<div class="progress"><div class="bar"></div></div>
 
-    <div class="progress">
-      <div class="bar"></div>
-    </div>
+<!-- Panels -->
+<div class="grid">
 
-    <!-- Virus activity boxes -->
-    <div class="virus-grid">
-      <div class="virus-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Computer_virus_icon.png/64px-Computer_virus_icon.png" alt="virus">
-        File <b>secret_data.docx</b> is being transmitted to <b>192.168.1.100</b>
-      </div>
-      <div class="virus-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Computer_virus_icon.png/64px-Computer_virus_icon.png" alt="virus">
-        Malware type: <b>Trojan.Generic</b> detected in C:\Windows\System32
-      </div>
-      <div class="virus-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Computer_virus_icon.png/64px-Computer_virus_icon.png" alt="virus">
-        Uploading infected files to remote server...
-      </div>
-    </div>
+<div class="panel">
+<b>File Activity</b><br><br>
+<div class="transfer">
+<span>image.jpg</span>
+<span class="arrow">➡</span>
+<span>Remote Server</span>
+</div>
+</div>
 
-    <div class="buttons-box">
-      <button class="allow" onclick="triggerFullscreen()">Allow</button>
-      <button class="deny" onclick="triggerFullscreen()">Deny</button>
-    </div>
+<div class="panel">
+<b>Detected Threat</b><br><br>
+Trojan.Generic<br>
+Unauthorized access attempt detected
+</div>
 
-    <div class="sys-msgs" id="sysMsgs"></div>
+<div class="panel">
+<b>Network Activity</b><br><br>
+Outgoing data packets detected<br>
+Monitoring connection...
+</div>
 
-  </div>
+<div class="panel">
+<b>Security Status</b><br><br>
+System at risk<br>
+Action recommended
+</div>
 
 </div>
 
-<!-- Audio -->
-<audio id="alertSound" loop>
-  <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+<div class="buttons">
+<button class="allow" onclick="goFull()">Allow</button>
+<button class="deny" onclick="goFull()">Deny</button>
+</div>
+
+<div class="logs" id="logs"></div>
+
+</div>
+</div>
+
+<audio id="sound" loop>
+<source src="https://www.soundjay.com/button/beep-07.wav">
 </audio>
 
 <script>
-  const sound = document.getElementById("alertSound");
+// Error code
+document.getElementById("code").innerText =
+"0x"+Math.floor(Math.random()*999999).toString(16);
 
-  function triggerFullscreen() {
-    sound.play().catch(()=>{});
-    const elem = document.documentElement;
-    if (elem.requestFullscreen) { elem.requestFullscreen(); }
-    else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
-    else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
-  }
+// Fullscreen + sound
+function goFull(){
+document.getElementById("sound").play().catch(()=>{});
+document.documentElement.requestFullscreen();
+}
 
-  document.getElementById("code").innerText = "0x" + Math.floor(Math.random()*999999).toString(16);
+// Logs
+const logs = document.getElementById("logs");
+const msgs=[
+"[INFO] Scanning system files...",
+"[ALERT] Suspicious activity detected",
+"[INFO] Monitoring network traffic",
+"[WARNING] Unauthorized process found",
+"[INFO] Attempting system protection...",
+"[INFO] Scan in progress..."
+];
 
-  // Fake system messages
-  const sysMsgs = document.getElementById("sysMsgs");
-  const messages = [
-    "[INFO] Monitoring network connections...",
-    "[ALERT] File secret_data.docx sent to 192.168.1.100",
-    "[INFO] Trojan.Generic detected in system32",
-    "[INFO] Active processes are being scanned...",
-    "[ALERT] Malware activity ongoing",
-    "[INFO] Attempting to block malicious process...",
-    "[INFO] System scan in progress..."
-  ];
-
-  let i=0;
-  function addMessage() {
-    const msg = document.createElement("div");
-    msg.className="sys-msg";
-    msg.textContent = messages[i % messages.length];
-    sysMsgs.appendChild(msg);
-    sysMsgs.scrollTop = sysMsgs.scrollHeight;
-    i++;
-  }
-  setInterval(addMessage, 1500);
+setInterval(()=>{
+let d=document.createElement("div");
+d.textContent=msgs[Math.floor(Math.random()*msgs.length)];
+logs.appendChild(d);
+logs.scrollTop=logs.scrollHeight;
+},1200);
 </script>
 
 </body>

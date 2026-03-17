@@ -2,179 +2,176 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Windows Security Center</title>
+<title>Security Center Demo</title>
 
 <style>
 body{
   margin:0;
   font-family:"Segoe UI",sans-serif;
-  background:#0078D7;
+  background:#0a0a0a;
+}
+
+/* BACKGROUND BLUR */
+.bg{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url("https://images.unsplash.com/photo-1518770660439-4636190af475") no-repeat center/cover;
+  filter:blur(6px) brightness(0.5);
+}
+
+/* FAKE WINDOW */
+.window{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:500px;
+  background:#fff;
+  border-radius:6px;
+  box-shadow:0 0 40px rgba(0,0,0,0.6);
+  overflow:hidden;
+}
+
+/* TITLE BAR */
+.titlebar{
+  background:#f3f3f3;
+  padding:10px;
+  font-weight:bold;
+  display:flex;
+  justify-content:space-between;
+}
+
+/* CONTENT */
+.content{
+  padding:20px;
+  text-align:center;
+}
+
+.content h2{
+  color:#d32f2f;
+  margin:10px 0;
+}
+
+.warning{
+  color:red;
+  font-weight:bold;
+  margin:10px 0;
+}
+
+/* ICONS */
+.icons{
   display:flex;
   justify-content:center;
+  gap:20px;
+  margin:15px 0;
+}
+
+.icons div{
+  width:60px;
+  height:60px;
+  background:#eee;
+  border-radius:8px;
+  display:flex;
   align-items:center;
-  height:100vh;
-}
-
-/* MAIN */
-.container{
-  width:900px;
-  max-width:95%;
-  position:relative;
-}
-
-.content{
-  background:white;
-  border-radius:10px;
-  padding:20px;
-  box-shadow:0 0 40px rgba(0,0,0,0.4);
-}
-
-/* HEADER */
-.header{display:flex;align-items:center;gap:10px;}
-.header img{width:40px;}
-.title{font-size:20px;font-weight:bold;}
-
-/* ALERT */
-.alert{
-  margin-top:15px;
-  padding:20px;
-  border-left:5px solid red;
-  text-align:center;
-  font-weight:bold;
-}
-
-/* PANELS */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:15px;
-}
-.panel{
-  background:#f5f5f5;
-  padding:15px;
-  border-radius:6px;
+  justify-content:center;
+  font-size:24px;
 }
 
 /* BUTTONS */
 .buttons{
-  margin-top:15px;
-  text-align:center;
+  margin-top:20px;
 }
+
 button{
-  padding:8px 20px;
+  padding:10px 20px;
   border:none;
   border-radius:4px;
   margin:5px;
   font-weight:bold;
   cursor:pointer;
 }
-.allow{background:#0078D7;color:white;}
-.deny{background:#d32f2f;color:white;}
 
-/* LOGS */
-.logs{
-  margin-top:10px;
-  background:#f9f9f9;
-  height:100px;
-  overflow:auto;
-  font-family:monospace;
-  font-size:13px;
-  padding:10px;
-}
-
-/* 🔴 BLINK OVERLAY */
-.overlay{
-  position:fixed;
-  top:0;left:0;
-  width:100%;
-  height:100%;
-  background:rgba(255,0,0,0.15);
-  pointer-events:none;
-  animation: blink 1s infinite;
-  display:none;
-}
-@keyframes blink{
-  0%,100%{opacity:0;}
-  50%{opacity:1;}
-}
-
-/* 🪟 POPUP */
-.popup{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:280px;
-  background:white;
-  border-radius:6px;
-  box-shadow:0 0 20px rgba(0,0,0,0.3);
-  padding:15px;
-  display:none;
-}
-.popup h3{
-  margin:0;
-  color:red;
-}
-.popup button{
-  width:100%;
-  margin-top:10px;
+.allow{
   background:#0078D7;
   color:white;
 }
 
-/* ⏳ TIMER */
-.timer{
-  color:red;
-  font-weight:bold;
+.deny{
+  background:#ccc;
+}
+
+/* TOP BLUE WARNING */
+.top-alert{
+  position:absolute;
+  top:10%;
+  left:50%;
+  transform:translateX(-50%);
+  width:400px;
+  background:#0078D7;
+  color:white;
+  padding:15px;
+  border-radius:6px;
   text-align:center;
-  margin-top:10px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+/* BLINK */
+.overlay{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(255,0,0,0.2);
+  animation:blink 1s infinite;
+  display:none;
+}
+
+@keyframes blink{
+  0%,100%{opacity:0;}
+  50%{opacity:1;}
 }
 </style>
 </head>
 
 <body>
 
+<div class="bg"></div>
 <div class="overlay" id="overlay"></div>
 
-<div class="container">
+<div class="top-alert">
+⚠ Security Warning (Demo)<br>
+Unusual activity detected on this system
+</div>
+
+<div class="window">
+
+<div class="titlebar">
+<span>Security Center</span>
+<span>✖</span>
+</div>
+
 <div class="content">
 
-<div class="header">
-<img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
-<div class="title">Windows Defender Security Center</div>
+<h2>Security Alert</h2>
+
+<div class="warning">
+Potential threat detected
 </div>
 
-<div class="alert">
-Suspicious activity detected<br>
-Error Code: <span id="code"></span>
+<div class="icons">
+<div>🛡️</div>
+<div>⚠️</div>
+<div>👤</div>
 </div>
 
-<div class="timer">
-System response time: <span id="time">30</span>s
-</div>
-
-<div class="grid">
-<div class="panel">File transfer detected</div>
-<div class="panel">Trojan.Generic found</div>
-<div class="panel">Network activity abnormal</div>
-<div class="panel">Security risk high</div>
-</div>
+<p>This is a demo interface for learning UI design.</p>
 
 <div class="buttons">
 <button class="allow" onclick="startDemo()">Allow</button>
 <button class="deny" onclick="startDemo()">Deny</button>
 </div>
 
-<div class="logs" id="logs"></div>
-
 </div>
-</div>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-<h3>⚠ Security Warning</h3>
-<p>Suspicious activity detected.</p>
-<button onclick="closePopup()">OK</button>
 </div>
 
 <audio id="sound" loop>
@@ -182,52 +179,15 @@ System response time: <span id="time">30</span>s
 </audio>
 
 <script>
-// Error code
-document.getElementById("code").innerText =
-"0x"+Math.floor(Math.random()*999999).toString(16);
-
-// Start demo
 function startDemo(){
-  document.getElementById("sound").play().catch(()=>{});
-  document.documentElement.requestFullscreen();
-
   document.getElementById("overlay").style.display="block";
 
-  setTimeout(()=>{
-    document.getElementById("popup").style.display="block";
-  },2000);
-}
+  document.getElementById("sound").play().catch(()=>{});
 
-// Close popup
-function closePopup(){
-  document.getElementById("popup").style.display="none";
-}
-
-// Timer countdown
-let t=30;
-setInterval(()=>{
-  if(t>0){
-    t--;
-    document.getElementById("time").innerText=t;
+  if(document.documentElement.requestFullscreen){
+    document.documentElement.requestFullscreen();
   }
-},1000);
-
-// Logs
-const logs=document.getElementById("logs");
-const msgs=[
-"[INFO] Scanning...",
-"[ALERT] Threat detected",
-"[INFO] Checking files",
-"[WARNING] Suspicious process",
-"[INFO] Monitoring network"
-];
-
-setInterval(()=>{
-  let d=document.createElement("div");
-  d.textContent=msgs[Math.floor(Math.random()*msgs.length)];
-  logs.appendChild(d);
-  logs.scrollTop=logs.scrollHeight;
-},1200);
+}
 </script>
 
 </body>
